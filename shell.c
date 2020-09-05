@@ -1,3 +1,6 @@
+// **** ls function working in normal terminal but not in replit****
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,7 +20,7 @@ int shellmkdir(int position,char **args);
 int shellcp(int position,char **args);
 int shellcd(char **args);
 int shellcat(int position,char **args);
-int shellls(int argc,char **argv);
+//int shellls(int argc,char **argv);
  //#include "pwd.h"
 // #include "cd_shahid.h"
 // #include "mkdir_shahid.h"
@@ -98,7 +101,7 @@ char **parse(char *line){
 			words = realloc(words,bufsize * sizeof(char*));
 
 			if(!words){
-		fprintf(stderr, "shell:allocation error\n" );
+		fprintf(stderr, "shell:not allocated\n" );
 		exit(EXIT_FAILURE);	
 	}
 		}
@@ -115,58 +118,8 @@ char **parse(char *line){
 	}
 
  int linexecute(char **args){
-  //  if ((args[position]= "&")||(args[position][strlen(args[position])-1])){//checks for & at the end
-
-  //    int rc = fork();
-  //    if (rc<0){
-  //      printf("error");
-  //      return 1;
-  //    }
-  //    else if(rc == 0){
-  //      if (strcmp(args[0],"cat")==0){
-	//      shellcat(position,args);
-  //  }
-  //  else if(strcmp(args[0],"cd")== 0){
-  //     shellcd(args);
-		 
-  //  }
-  //  else if(strcmp(args[0],"cp")== 0){
-  //    shellcp(position,args);
-
-  //  }
-  //  else if(strcmp(args[0],"grep")== 0){
-  //    shellgrep(position,args);
-  //  }
-  //  else if (strcmp(args[0],"ls")==0){
-	// 		shellls(position,args);
-
-	// 	}
-  //   else if (strcmp(args[0],"mkdir")==0){
-	// 	 shellmkdir(position,args);
-
-	//  }
-  //  else if (strcmp(args[0],"pwd")==0){
-	// 	 if (position >1){
-
-	// 		 printf("error:unsupported format");
-  //      //pwd wont take any extra arguments
-	// 	 return 1;
-
-	//    }
-	// 	 else{
-	// 	 shellpwd(args);
-	// 	}
-	//   exit(0);
-	//  }
-
-
-  //    }
-  //    else{
-  //      return 1;
-  //    }
-  //  }
-  //   // 
-    //  
+   
+//      from here onwards normal execution of functions
 
 	  if (strcmp(args[0],"exit")==0){
      //comparing first word
@@ -189,10 +142,10 @@ char **parse(char *line){
      shellgrep(position,args);
    }
 
-	  else if (strcmp(args[0],"ls")==0){
-			shellls(position,args);
+	//   else if (strcmp(args[0],"ls")==0){
+	// 		shellls(position,args);
 
-		}
+	// 	}
 
 	 else if (strcmp(args[0],"mkdir")==0){
 		 shellmkdir(position,args);
@@ -217,9 +170,9 @@ char **parse(char *line){
      shellinbuilt(args);
    }
  	
-  
- 		}
-
+   }
+ 		
+ 
  	
 int shellmkdir(int position,char **args){
   //creating a directory using mkdir function
@@ -255,62 +208,7 @@ int shellmkdir(int position,char **args){
 	}
 }
 
-int shellls(int position,char **args) {
-//ls prints the files present in a given directory
-int pathnum;
-struct dirent **directory;
 
-if(position < 1) {
-return 1;
-} 
-else if (position == 1) {
-pathnum=scandir( "." ,&directory,NULL,alphasort);
-//pathnum stores the number of files in directory
-//alphasort helps in sorting the entries alphabetically
-
-if(pathnum < 0) {
-//no entries in directory
-printf("error in scannig the directory");
-return 1;
-                                  
-}
-
-else { 
-//pathnum greater than zero
-//d->name store the names of the entries in a directory
-for(int j=0; j<pathnum;j++) {
-  printf("%s\n",directory[j]->d_name);
-  
- } 
- free(directory);
-
-  } 
-}
-
-else {
-
-  for (int i=1;i<position;i++){
-    //multiple directories 
-pathnum = scandir(args[i], &directory, NULL, alphasort);
-//
-
-if(pathnum < 0) {
-perror("scandir");
-                       
-                       
-}
-else { 
-for(int j=0; j<pathnum;j++) {
-  printf("%s\n",directory[j]->d_name);
-  
- } 
- free(directory);
-  } 
-  //prints the contents in directory 1 followed by directory 2 and so on
-  }
-   return 1;
-}
-}
 
 
 
@@ -380,7 +278,11 @@ fgets(line,200,stdin);
 
 int shellcp(int position,char **args){
   //cp file1 file2 
-  //struct dirent **namelist;
+  if (position<3){
+    printf("not sufficient files");
+    return 1;
+  }
+  
   if (position == 3){
     FILE *fr;
     char *line = '\0';
@@ -494,8 +396,7 @@ int shellcd(char**args){
     printf("no directory");
     return 1;
   } else {
-    if (chdir(args[1]) != 0)//directory created 
-   {
+    if (chdir(args[1]) != 0) {
       printf("cannot make the directory");
       return 1;
     }
@@ -506,7 +407,9 @@ int shellcd(char**args){
 }
 
 int shellinbuilt(char **args){
-  pid_t p;
+        //if args [0] does not match with any of our functions 
+        //checking if its any inbuilt function
+  pid_t p; 
   int rc = fork();
   
    
