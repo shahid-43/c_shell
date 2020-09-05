@@ -208,12 +208,13 @@ int shellmkdir(int position,char **args){
 
 int shellpwd( char **args) {
   //prints the path of the currently working directory
-         char *currentdir = (char *) malloc (1024);
+         char *ourdirectory = (char *) malloc (500);
 
-         if (getcwd(currentdir, 1024) != NULL){
+         if (getcwd(ourdirectory, 500) != NULL){
            //getcwd gets the path of currentdir
 
-                 fprintf(stdout, "%s\n", currentdir);
+                 fprintf(stdout, "%s\n", ourdirectory);
+		 //printing in terminal the directory path
          }
         return 1;
         //status
@@ -325,7 +326,7 @@ int shellcp(int position,char **args){
   if(fw ==NULL){
     return 1;
   }
-  while ((getline(&word,&len,fr))!=EOF){
+  while ((getline(&word,&len,fr))!=EOF){//similar to the two file case
    
     fprintf(fw,"%s",word);
   }
@@ -364,7 +365,7 @@ printf("%s",args[i]);
 
    else{
    while((ch = fgetc(fp)) != EOF){
-     //fets every charecter in the opened file and prints them
+     //fgets every charecter in the opened file and prints them
       printf("%c", ch);
    
    
@@ -386,14 +387,14 @@ else{
 int shellcd(char**args){
   //changes directory
 
-  if (args[1] == NULL) {
+  if (args[1] == NULL) { //no directory given as input
     printf("no directory");
     return 1;
   } else {
-    if (chdir(args[1]) != 0) {
+    if (chdir(args[1]) != 0) {//change directory not successfull
       printf("cannot make the directory");
       return 1;
-    }
+    }//if not directory ch dir successfull
   }
   return 1;
 
@@ -411,7 +412,7 @@ int shellinbuilt(char **args){
       printf("child not created");
       return 1;
     }
-    else if( rc == 0){
+    else if( rc == 0){//successfully created child
      if(execvp(args[0],args)== -1){
       printf("error");
       return 1;
