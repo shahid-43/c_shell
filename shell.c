@@ -21,17 +21,11 @@ int shellcp(int position,char **args);
 int shellcd(char **args);
 int shellcat(int position,char **args);
 //int shellls(int argc,char **argv);
- //#include "pwd.h"
-// #include "cd_shahid.h"
-// #include "mkdir_shahid.h"
-// #include "cp_shahid.h"
-// #include "ls_shahid.h"
-// #include "cat_shahid.h"
-// #include "grep_shahid.h"
+
 
 int main(int argc , char **argv){ //intiating the shell
 	while(1){
-	startshell();
+	startshell(); //shell loop 
 	}
 }
 
