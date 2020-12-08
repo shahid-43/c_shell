@@ -131,7 +131,7 @@ char **parse(char *line){
      shellcp(position,args);
 
    }
-
+//
    else if(strcmp(args[0],"grep")== 0){
      shellgrep(position,args);
    }
